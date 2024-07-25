@@ -1,0 +1,181 @@
+-- Código Lua para criar uma UI no Roblox com um botão de fechar, funcionalidade de arrastar e novas opções
+
+-- Função para criar uma nova instância
+local function createInstance(className, properties)
+    local instance = Instance.new(className)
+    for prop, value in pairs(properties) do
+        instance[prop] = value
+    end
+    return instance
+end
+
+-- Variáveis que armazenam os códigos das opções
+local tsuoHubMainCode = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Tsuo7/TsuoHub/main/tsuohubmain"))()'
+local tsuoHubKaitunCode = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Tsuo7/TsuoHub/main/TsuohubKaitun"))()'
+local redzHubCode = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/BloxFruits/main/redz9999"))()'
+local matsuneHubCode = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Yatsuraa/Matsune/main/matssunehub.lua"))()'
+local hohoHubCode = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI"))()'
+
+-- Criando a tela (ScreenGui)
+local screenGui = createInstance("ScreenGui", {Name = "CustomUI"})
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Criando o frame principal
+local mainFrame = createInstance("Frame", {
+    Name = "MainFrame",
+    Size = UDim2.new(0, 300, 0, 320), -- Aumentado para acomodar mais botões
+    Position = UDim2.new(0.5, -150, 0.5, -160),
+    BackgroundColor3 = Color3.fromRGB(30, 30, 30),
+    BorderSizePixel = 0,
+    Parent = screenGui,
+    Draggable = true -- Faz o frame ser arrastável
+})
+
+-- Criando o título
+local title = createInstance("TextLabel", {
+    Name = "Title",
+    Size = UDim2.new(1, -50, 0, 30),
+    Position = UDim2.new(0, 10, 0, 10),
+    BackgroundTransparency = 1,
+    Text = "GGM Loader",
+    TextColor3 = Color3.fromRGB(255, 255, 255),
+    TextSize = 20,
+    Font = Enum.Font.SourceSansBold,
+    Parent = mainFrame
+})
+
+-- Criando o botão de fechar
+local closeButton = createInstance("TextButton", {
+    Name = "CloseButton",
+    Size = UDim2.new(0, 30, 0, 30),
+    Position = UDim2.new(1, -40, 0, 10),
+    BackgroundColor3 = Color3.fromRGB(255, 0, 0),
+    Text = "X",
+    TextColor3 = Color3.fromRGB(255, 255, 255),
+    Parent = mainFrame
+})
+
+-- Criando o botão Tsuo Hub Main
+local tsuoHubMainButton = createInstance("TextButton", {
+    Name = "TsuoHubMainButton",
+    Size = UDim2.new(0, 280, 0, 40),
+    Position = UDim2.new(0, 10, 0, 50),
+    BackgroundColor3 = Color3.fromRGB(40, 40, 40),
+    Text = "Tsuo Hub Main",
+    TextColor3 = Color3.fromRGB(255, 255, 255),
+    Parent = mainFrame
+})
+
+-- Criando o botão Tsuo Hub Kaitun
+local tsuoHubKaitunButton = createInstance("TextButton", {
+    Name = "TsuoHubKaitunButton",
+    Size = UDim2.new(0, 280, 0, 40),
+    Position = UDim2.new(0, 10, 0, 100),
+    BackgroundColor3 = Color3.fromRGB(40, 40, 40),
+    Text = "Tsuo Hub Kaitun",
+    TextColor3 = Color3.fromRGB(255, 255, 255),
+    Parent = mainFrame
+})
+
+-- Criando o botão Redz Hub
+local redzHubButton = createInstance("TextButton", {
+    Name = "RedzHubButton",
+    Size = UDim2.new(0, 280, 0, 40),
+    Position = UDim2.new(0, 10, 0, 150),
+    BackgroundColor3 = Color3.fromRGB(40, 40, 40),
+    Text = "Redz Hub",
+    TextColor3 = Color3.fromRGB(255, 255, 255),
+    Parent = mainFrame
+})
+
+-- Criando o botão Matsune Hub
+local matsuneHubButton = createInstance("TextButton", {
+    Name = "MatsuneHubButton",
+    Size = UDim2.new(0, 280, 0, 40),
+    Position = UDim2.new(0, 10, 0, 200),
+    BackgroundColor3 = Color3.fromRGB(40, 40, 40),
+    Text = "Matsune Hub",
+    TextColor3 = Color3.fromRGB(255, 255, 255),
+    Parent = mainFrame
+})
+
+-- Criando o botão Hoho Hub
+local hohoHubButton = createInstance("TextButton", {
+    Name = "HohoHubButton",
+    Size = UDim2.new(0, 280, 0, 40),
+    Position = UDim2.new(0, 10, 0, 250),
+    BackgroundColor3 = Color3.fromRGB(40, 40, 40),
+    Text = "Hoho Hub",
+    TextColor3 = Color3.fromRGB(255, 255, 255),
+    Parent = mainFrame
+})
+
+-- Função para executar o código ao clicar nos botões
+local function executeCode(code)
+    loadstring(code)()
+end
+
+-- Função para fechar a UI
+local function closeUI()
+    screenGui:Destroy()
+end
+
+-- Conectando as funções aos botões
+tsuoHubMainButton.MouseButton1Click:Connect(function()
+    executeCode(tsuoHubMainCode)
+end)
+
+tsuoHubKaitunButton.MouseButton1Click:Connect(function()
+    executeCode(tsuoHubKaitunCode)
+end)
+
+redzHubButton.MouseButton1Click:Connect(function()
+    executeCode(redzHubCode)
+end)
+
+matsuneHubButton.MouseButton1Click:Connect(function()
+    executeCode(matsuneHubCode)
+end)
+
+hohoHubButton.MouseButton1Click:Connect(function()
+    executeCode(hohoHubCode)
+end)
+
+closeButton.MouseButton1Click:Connect(closeUI)
+
+-- Adicionando a funcionalidade de arrastar
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        update(input)
+    end
+end)
